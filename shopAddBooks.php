@@ -5,19 +5,21 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Home | Shop</title>
-  
+    <title>Add Books | Shop</title>
+
+
+    
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700|Open+Sans:300,400,600|Roboto+Condensed:300,400,700|Roboto:100,300,400,700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Love+Ya+Like+A+Sister&display=swap" rel="stylesheet">
-      
+    
+    
     <!-- css -->
-    <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link href="resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="resources/css/style.css" rel="stylesheet">
 
   </head>
   <body background="resources/images/shopBackground.jpg">
-  
+   
     <!--Start of Header Row-->
     <div id="header-row">
       
@@ -47,8 +49,8 @@
 
               <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="shopMain.php">Home </a></li>
-                    <li><a href="shopAddBooks.php">Add Books</a></li>
+                    <li ><a href="shopMain.php">Home </a></li>
+                    <li class="active"><a href="shopAddBooks.php">Add Books</a></li>
                 </ul>
               </div>
 
@@ -66,68 +68,36 @@
 <div class ="container" style="padding-top: 20px; padding-bottom: 20px;">
     <div class="col-sm-12">
         <div class="col-sm-6">
-
-            <table id="example" class="table table-bordered" style="width:100%">
-                <thead>
-                <tr>
-                    <th>ISBN</th>
-                    <th>Name</th>
-                    <th>Author</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr >
-                    <td>Tiger Nixon</td>
-                    <td>System Architect</td>
-                    <td>Edinburgh</td>
-                    <td>61</td>
-                    <td>2011/04/25</td>
-                </tr>          
-                <tr onclick="tableDataLoad(3)">
-                    <td><input type="hidden" id="3_name" value="Ashton Cox">Ashton Cox</td>
-                    <td><input type="hidden" id="3_position" value="Junior Technical Author">Junior Technical Author</td>
-                    <td><input type="hidden" id="3_office" value="San Francisco">San Francisco</td>
-                    <td>66</td>
-                    <td>2009/01/12</td>
-                </tr>
-
-                <tr onclick="tableDataLoad(1)">
-                    <td><input type="hidden" id="1_name" value="Airi Satou">Airi Satou</td>
-                    <td><input type="hidden" id="1_position" value="Accountant">Accountant</td>
-                    <td><input type="hidden" id="1_office" value="Tokyo">Tokyo</td>
-                    <td>33</td>
-                    <td>2008/11/28</td>
-                </tr>
-                </tbody>
-       
-            </table>
-        </div>
-        <div class="col-sm-6">
             <div class="signup-form">
                 <form action="/examples/actions/confirmation.php" method="post">
                     <div class="text-center">
-                        <h2>Stock Update</h2>
-                        <!--                    <p class="hint-text">Create your account. It's free and only takes a minute.</p>-->
+                        <h2>Insert Books</h2>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="edit_name" name="isbn" placeholder="ISBN" required="required">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="edit_name" name="edit_name" placeholder="ISBN" required="required">
+                        <input type="text" class="form-control" id="edit_position" name="name" placeholder="Name" required="required">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="edit_position" name="edit_position" placeholder="Name" required="required">
+                        <input type="text" class="form-control" id="edit_office" name="author" placeholder="Author" required="required">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="edit_office" name="edit_office" placeholder="Quantity" required="required">
+                        <input type="text" class="form-control" id="edit_office" name="price" placeholder="Price" required="required">
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-success btn-lg btn-block">Update</button>
-                        <button type="submit" class="btn btn-warning btn-lg btn-block">Delete</button>
+                        <input type="text" class="form-control" id="edit_office" name="quantity" placeholder="Quantity" required="required">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success btn-lg btn-block">Add</button>
                     </div>
                     
                 </form>
 
             </div>
+        </div>
+        <div class="col-sm-6">
         </div>
     </div>
 

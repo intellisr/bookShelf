@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Home | BookStore</title>
+    <title>Share | BookShelf</title>
 
 
     
@@ -14,10 +14,61 @@
     <!-- Bootstrap -->
     <link href="resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="resources/css/style.css" rel="stylesheet">
+    <script src="resources/js/jquery-1.11.2.min.js"></script>
+    <script src="resources/js/bootstrap.min.js"></script>
+    
+        <script>
+      var map;
+      var service;
+      var infowindow;
+
+      function initMap(lat, lng) {
+        //var sydney = new google.maps.LatLng(6.9061, 79.9696);
+        var sydney = new google.maps.LatLng(lat, lng);
+        infowindow = new google.maps.InfoWindow();
+
+        map = new google.maps.Map(
+            document.getElementById('map'), {center: sydney, zoom: 15});
+
+        var request = {
+          query: 'intellisr (pvt) ltd',
+          fields: ['name', 'geometry'],
+        };
+
+        service = new google.maps.places.PlacesService(map);
+
+        service.findPlaceFromQuery(request, function(results, status) {
+          if (status === google.maps.places.PlacesServiceStatus.OK) {
+            for (var i = 0; i < results.length; i++) {
+              createMarker(results[i]);
+            }
+
+            map.setCenter(results[0].geometry.location);
+          }
+        });
+      }
+
+      function createMarker(place) {
+        var marker = new google.maps.Marker({
+          map: map,
+          position: place.geometry.location
+        });
+
+        google.maps.event.addListener(marker, 'click', function() {
+          infowindow.setContent(place.name);
+          infowindow.open(map, this);
+        });
+      }
+
+      function nameChanged(){
+        initMap(6.9061, 79.9696);
+    }
+      
+    </script>
 
   </head>
-  <body>
-   
+  
+  <body background="resources/images/shopBackground.jpg">   
     <!--Start of Header Row-->
     <div id="header-row">
       
@@ -47,72 +98,74 @@
 
               <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                  <li ><a href="#">Home </a></li>
-                  <li class="active"><a href="#">Share Books</a></li>
-                  <li><a href="#">Chat Room</a></li>
-                  <li><a href="#">Cart</a></li>
-
+                    <li ><a href="userMain.php">Home </a></li>
+                    <li class="active"><a href="shareBooks.php">Share Books</a></li>
+                    <li><a href="chatRoom.php">Chat Room</a></li>
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle" style="color:#FFFFFF"><span class="glyphicon glyphicon-user" ></span><b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href=""> Shopping Cart</a></li>
+                            <li class="divider"></li>
+                            <li><a href="">Log out</a></li>
+                        </ul>
+                    </li>                    
                 </ul>
               </div>
 
           </div>
         </nav>
-          <!--End of Header Right/Navigation-->
 
           </div>
         </div>
-      <!--End of Header-->
 
     </div>
-    <!--End of Header Row-->
+
 <!------------------------------------------------------------------------------------------------------------>
 
-<div class="search-sra">
+<div id="search-row">  
     
-<div class="form-group row">
-   <div class="col">
-      <div class="input-group input-group-lg">
-        <input type="text" class="form-control" placeholder="Search By Name">
-            <div class="input-group-btn">
-            <button class="btn btn-default" type="submit">
-                <i class="glyphicon glyphicon-search"></i>
-            </button>
-            </div>
-        </div>
-    </div>
-</div>
- 
-<div class="form-group row">
-   <div class="col">
-      <div class="input-group input-group-lg">
-        <input type="text" class="form-control" placeholder="Search By Author">
-            <div class="input-group-btn">
-            <button class="btn btn-default" type="submit">
-                <i class="glyphicon glyphicon-search"></i>
-            </button>
-            </div>
-        </div>
-    </div>
-</div>    
-       
-</div>
+        <div id="search-container" class="container">         
+          <div class="row">
 
-<div class="show-sra">        
-      <div id="middle-content" class="container">
-        <div class="row">
-        <div class="col-md-4 col-sm-4 col-xs-6 box-def grid">
-          <figure class="effect-ruby">
-            <img class="img-responsive" src="resources/images/about-dimensions-it.jpg" alt="About Dimensions-IT">
-            <figcaption>
-              <h2>About <span>Us</span></h2>
-              <p>What is Dimensions IT?. Read More About Us.</p>
-              <a href="#">View more</a>
-            </figcaption>     
-          </figure>
-        </div>      
-    </div>
+            <div id="search-by-name" class="col-md-4">
+              <form>
+                <div class="input-group">
+                  <input id="nnn" type="text" class="form-control" placeholder="Search By Name" onchange="nameChanged()">
+                  <div class="input-group-btn">
+                    <button class="btn btn-default" type="submit">
+                      <i class="glyphicon glyphicon-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <div id="search-by-isbn" class="col-md-4">
+              <form>
+                <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Search By ISBN">
+                  <div class="input-group-btn">
+                    <button class="btn btn-default" type="submit">
+                      <i class="glyphicon glyphicon-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
    </div>
-</div>
+
+     <div id="maps-row">
+      <div class="container">
+        <div class="row">
+          <div id="map" class="col-md-12"></div>
+          <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDq1uR22iiKmJe8aefKswWa4Td_gok0Mmk&libraries=places&callback=initMap" async defer></script>
+           </div>
+        </div>
+    </div>   
+
+
 
 
   </body>
