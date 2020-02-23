@@ -66,7 +66,7 @@
 
 
   </head>
-  <body>
+    <body background="resources/images/shopBackground.jpg">
     <!--Start of Header Row-->
     <div id="header-row">
       
@@ -96,11 +96,17 @@
 
               <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                  <li class="active"><a href="#">Home </a></li>
-                  <li ><a href="#">Share Books</a></li>
-                  <li><a href="#">Chat Room</a></li>
-                  <li><a href="#">Cart</a></li>
-
+                    <li class="active"><a href="userMain.php">Home </a></li>
+                    <li ><a href="shareBooks.php">Share Books</a></li>
+                    <li><a href="chatRoom.php">Chat Room</a></li>
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle" style="color:#FFFFFF"><span class="glyphicon glyphicon-user" ></span><b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href=""> Shopping Cart</a></li>
+                            <li class="divider"></li>
+                            <li><a href="">Log out</a></li>
+                        </ul>
+                    </li>    
                 </ul>
               </div>
 

@@ -3,7 +3,9 @@ body{
 	font-family: 'Open Sans', sans-serif;
 	font-size: 15px;
 	/*background: url(../images/bg.jpg) top center no-repeat;*/
-	background: url(../images/books.jpg);
+	/*background: url(../images/books.jpg);*/
+                    background-repeat: no-repeat;
+                    background-size: cover;
 }
 h1{
 	font-size: 4em;

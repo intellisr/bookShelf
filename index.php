@@ -113,15 +113,15 @@
     }
     
   </script>
-
   <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+  
 </div>
             
              <div class="Shop">   
                 <form class="form-signin">
-                <input type="text" class="form-control" placeholder="Email" required autofocus>
-                <input type="password" class="form-control" placeholder="Password" required>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">
+                    <input type="text" class="form-control" placeholder="Shop" name="shop" required autofocus>
+                    <input type="password" class="form-control" placeholder="Password" name="pw"  required>
+                <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="shopLogin()">
                     Sign in</button>
                 <label class="checkbox pull-left">
                     <input type="checkbox" value="remember-me">
@@ -156,6 +156,14 @@
     function user(){
         $('.Shop').hide();
         $('.userSignIn').show(); 
+    }
+    
+    function shopLogin(){
+         jQuery.ajax({
+        type: "POST",
+        url: '/bookShelf/Controllers/userLogin.php',
+        dataType: 'json',
+        data: usrObj});
     }
         
 </script>
