@@ -1,40 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-
+    <?php ob_start(); ?>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Home | BookStore</title>
-
-
     
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700|Open+Sans:300,400,600|Roboto+Condensed:300,400,700|Roboto:100,300,400,700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Love+Ya+Like+A+Sister&display=swap" rel="stylesheet">
     <!-- Bootstrap -->
     <link href="resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="resources/css/style.css" rel="stylesheet">
+    <script src="resources/js/jquery-1.11.2.min.js"></script>
+    <script src="resources/js/bootstrap.min.js"></script>
 
-
-<style>
-      /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-      #map {
-        height: 500px;
-        width: 100%;
-      }
-      /* Optional: Makes the sample page fill the window. */
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-    </style>
     <script>
-      // This example requires the Places library. Include the libraries=places
-      // parameter when you first load the API. For example:
-      // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
-
       var map;
       var service;
       var infowindow;
@@ -48,7 +29,7 @@
             document.getElementById('map'), {center: sydney, zoom: 15});
 
         var request = {
-          query: 'Slit Campus Malabe, Malabe',
+          query: 'intellisr (pvt) ltd',
           fields: ['name', 'geometry'],
         };
 
@@ -79,15 +60,13 @@
 
       function nameChanged(){
         initMap(6.9061, 79.9696);
-      }
+    }
+      
     </script>
-
-
 
 
   </head>
   <body>
-   
     <!--Start of Header Row-->
     <div id="header-row">
       
@@ -136,7 +115,6 @@
     </div>
     <!--End of Header Row-->
 <!------------------------------------------------------------------------------------------------------------>
-
 
     <div id="search-row">
       
@@ -198,3 +176,14 @@
 
   </body>
 </html>
+
+<script>
+    
+    $(function(){       
+        window.sessionStorage;
+        var Uid = sessionStorage.getItem("Uid");
+        var data = sessionStorage.getItem("userObj");
+        console.log(data.Uname);
+    });
+            
+</script>
