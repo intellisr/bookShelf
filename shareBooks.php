@@ -163,8 +163,71 @@
           <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDq1uR22iiKmJe8aefKswWa4Td_gok0Mmk&libraries=places&callback=initMap" async defer></script>
            </div>
         </div>
-    </div>   
+    </div>
 
+        <div class="col-sm-6">
+            <div class="signup-form">
+                <form action="" method="post">
+                    <div class="text-center">
+                        <h3>Add My Books</h3>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="edit_name" name="isbn" placeholder="ISBN" required="required">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="edit_position" name="name" placeholder="Name" required="required">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="edit_office" name="author" placeholder="Author" required="required">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="edit_office" name="price" placeholder="Price" required="required">
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success btn-lg btn-block">Add</button>
+                    </div>
+                    
+                </form>
+
+            </div>
+        </div>
+        
+        <div class="col-sm-6">
+             <table id="example" class="table table-bordered" style="width:100%;margin-top:100px; ">
+                <thead>
+                <tr>
+                    <th>ISBN</th>
+                    <th>Name</th>
+                    <th>Author</th>
+                    <th>Price</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr >
+                    <td>Tiger Nixon</td>
+                    <td>System Architect</td>
+                    <td>Edinburgh</td>
+                    <td>61</td>
+                </tr>          
+                <tr onclick="tableDataLoad(3)">
+                    <td><input type="hidden" id="3_name" value="Ashton Cox">Ashton Cox</td>
+                    <td><input type="hidden" id="3_position" value="Junior Technical Author">Junior Technical Author</td>
+                    <td><input type="hidden" id="3_office" value="San Francisco">San Francisco</td>
+                    <td>66</td>
+                </tr>
+
+                <tr onclick="tableDataLoad(1)">
+                    <td><input type="hidden" id="1_name" value="Airi Satou">Airi Satou</td>
+                    <td><input type="hidden" id="1_position" value="Accountant">Accountant</td>
+                    <td><input type="hidden" id="1_office" value="Tokyo">Tokyo</td>
+                    <td>33</td>
+                </tr>
+                </tbody>
+       
+            </table>
+        </div>
 
 
 
