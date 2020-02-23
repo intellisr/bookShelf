@@ -69,7 +69,7 @@
                 <div class="login-title">Sign In As</div>
             <ul class="nav nav-tabs">
                 <li onclick="user()" class="active"><a href="#">Buyer</a></li>
-                <li onclick="shop()"><a href="#">Shopper</a></li>
+                <li onclick="shop()"><a href="#">Shop Owner</a></li>
             </ul>
                 
  <div class="userSignIn">                
@@ -118,18 +118,18 @@
 </div>
             
              <div class="Shop">   
-                <form class="form-signin">
+                <form class="form-signin" id="login" method="post">
                     <input type="text" class="form-control" placeholder="Shop" name="shop" required autofocus>
                     <input type="password" class="form-control" placeholder="Password" name="pw"  required>
-                <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="shopLogin()">
+                    <button class="btn btn-lg btn-primary btn-block" type="button" onclick="shopLogin()">
                     Sign in</button>
-                <label class="checkbox pull-left">
+                    <label class="checkbox pull-left">
                     <input type="checkbox" value="remember-me">
                     Remember me
-                </label>
-                <a href="#" class="pull-right need-help">Need help? </a><span class="clearfix"></span>
-                </form>
-                 <a href="#" class="text-center new-account">Create an account </a>
+                    </label>
+                    <a href="#" class="pull-right need-help">Need help? </a><span class="clearfix"></span>
+                    </form>
+                    <a href="#" class="text-center new-account">Create an account </a>
             </div>
         </div>         
             
@@ -159,11 +159,16 @@
     }
     
     function shopLogin(){
-         jQuery.ajax({
+         //console.log("sdsdsd");
+        jQuery.ajax({
         type: "POST",
-        url: '/bookShelf/Controllers/userLogin.php',
+        url: '/bookShelf/Controllers/shopLogin.php',
         dataType: 'json',
-        data: usrObj});
+        data: $('#login').serialize(),
+        success: function () {
+                       window.location.replace(' /bookShelf/shopMain.php');
+            }
+        });
     }
         
 </script>

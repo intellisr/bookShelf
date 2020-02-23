@@ -29,8 +29,8 @@
             document.getElementById('map'), {center: sydney, zoom: 15});
 
         var request = {
-          query: 'intellisr (pvt) ltd',
-          fields: ['name', 'geometry'],
+          query: 'No:661 P De S Kularatne Mawatha, Colombo 01000',
+          fields: ['name', 'geometry']
         };
 
         service = new google.maps.places.PlacesService(map);
@@ -126,6 +126,17 @@
       
         <div id="search-container" class="container">         
           <div class="row">
+              
+          <div id="search-by-cover" class="col-md-4">
+              <h2>Search By Cover</h2>
+            <form method="POST" action="pictureUpload.php" enctype="multipart/form-data" id="upload">                   
+                    <div class="row">
+                        <div class="col-md-4">
+                            <input type="file" name="image" id="image">
+                        </div>
+                    </div>
+            </form>
+            </div>   
 
             <div id="search-by-name" class="col-md-4">
               <form>
@@ -153,19 +164,6 @@
               </form>
             </div>
 
-            <div id="search-by-cover" class="col-md-4">
-              <form>
-                <div class="input-group">
-                  <input type="text" class="form-control" placeholder="Search By Book Cover">
-                  <div class="input-group-btn">
-                    <button class="btn btn-default" type="submit">
-                      <i class="glyphicon glyphicon-search"></i>
-                    </button>
-                  </div>
-                </div>
-              </form>
-            </div>
-
           </div>
         </div>
     </div> 
@@ -178,6 +176,46 @@
         </div>
       </div>
     </div>
+
+      <div id="middle-content" class="container">
+        <div class="row">
+            
+        <div class="col-md-4 col-sm-4 col-xs-6 box-def grid">
+          <figure class="effect-ruby">
+            <img class="img-responsive" src="resources/images/cover.jpg" >
+            <figcaption>
+              <h2>Sarasavi Book Shop</h2>
+              <p>Name : Horton</p>
+              <a href="#">Price : 1000.00</a>
+            </figcaption>     
+          </figure>
+        </div>  
+            
+         <div class="col-md-4 col-sm-4 col-xs-6 box-def grid">
+          <figure class="effect-ruby">
+            <img class="img-responsive" src="resources/images/cover.jpg" >
+            <figcaption>
+              <h2>Godage Book Shop</h2>
+              <p>Name : Horton</p>
+              <a href="#">Price : 1000.00</a>
+            </figcaption>     
+          </figure>
+        </div> 
+            
+         <div class="col-md-4 col-sm-4 col-xs-6 box-def grid">
+          <figure class="effect-ruby">
+            <img class="img-responsive" src="resources/images/cover.jpg" >
+            <figcaption>
+              <h2>Senanayaka Book Shop</h2>
+              <p>Name : Horton</p>
+              <a href="#">Price : 1000.00</a>
+            </figcaption>     
+          </figure>
+        </div>     
+            
+    </div>
+   </div>
+    
 
 
   </body>
