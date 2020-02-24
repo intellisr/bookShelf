@@ -91,9 +91,14 @@
         type: "POST",
         url: '/bookShelf/Controllers/userLogin.php',
         dataType: 'json',
-        data: usrObj});
-    
-    window.location = 'http://localhost/bookShelf/userMain.php';
+        data: usrObj,
+        success: function(data){
+                  if(data.code == 200){
+                  window.location = 'http://localhost/bookShelf/userMain.php';
+                  }
+         }
+     });    
+      
     }
     
     function onFailure(error) {
@@ -129,7 +134,7 @@
                     </label>
                     <a href="#" class="pull-right need-help">Need help? </a><span class="clearfix"></span>
                     </form>
-                    <a href="#" class="text-center new-account">Create an account </a>
+                 <a href="shopRegister.php" class="text-center new-account">Create an account </a>
             </div>
         </div>         
             
@@ -145,7 +150,7 @@
     
     $(function(){       
         $('.Shop').hide(); 
-         
+        
     });
     
     function shop(){
@@ -159,15 +164,18 @@
     }
     
     function shopLogin(){
-         //console.log("sdsdsd");
         jQuery.ajax({
         type: "POST",
         url: '/bookShelf/Controllers/shopLogin.php',
         dataType: 'json',
         data: $('#login').serialize(),
-        success: function () {
-                       window.location.replace(' /bookShelf/shopMain.php');
-            }
+        success: function(data){
+                  if(data.code == 200){
+                  window.location = 'http://localhost/bookShelf/shopMain.php';
+                  }else{
+                  window.location = 'http://localhost/bookShelf/shopRegister.php';
+                  }
+         }
         });
     }
         

@@ -6,47 +6,55 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Share | BookShelf</title>
-
-
-    
+        
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700|Open+Sans:300,400,600|Roboto+Condensed:300,400,700|Roboto:100,300,400,700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Love+Ya+Like+A+Sister&display=swap" rel="stylesheet">
     <!-- Bootstrap -->
-    <link href="resources/css/bootstrap.min.css" rel="stylesheet">
-    <link href="resources/css/style.css" rel="stylesheet">
-    <script src="resources/js/jquery-1.11.2.min.js"></script>
-    <script src="resources/js/bootstrap.min.js"></script>
+      <link href="resources/css/bootstrap.min.css" rel="stylesheet">
+      <link href="resources/css/style.css" rel="stylesheet">    
+        <script src="resources/chatRoom/jquery.min.js"></script>
+        <script src="resources/chatRoom/moment.min.js"></script>
+        <script src="resources/chatRoom/livestamp.js"></script>
+        <link rel="stylesheet" type="text/css" href="resources/chatRoom/style.css">
 
+    <style>
+
+        #view_ajax {
+         display: block;
+         overflow: auto;
+         width: 500px; 
+         height: 300px; 
+        border: 1px solid #333;
+        margin: 0 auto;
+        margin-top: 20px;
+        }
+
+        #ajaxForm{
+        display: block;
+        margin: 0 auto;
+        width: 500px; 
+         height: 50px;
+        margin-top: 10px;
+        }
+
+        #chatInput{
+        width: 454px;
+        }
+    </style>
   </head>
   <body background="resources/images/shopBackground.jpg">
-   
-    <!--Start of Header Row-->
-    <div id="header-row">
       
-      <!--Start of Header-->
-        <div id="header" class="container">         
-          <div class="row">
-            
-          <!--Start of Header Left-->
-            <div id="header-left" class="col-md-4 col-sm-4 hidden-xs">
-              <a href="#" title="Home | BookStore"><img class="img-responsive" src="resources/images/logo_dark.png" alt="BookStore Logo"></a>
-            </div>
-          <!--End of Header Left-->
-
-          <!--Start of Header Right/Navigation-->
-            <nav id="header-right" class="navbar navbar-default col-md-8 col-sm-8" role="navigation">
-            <div class="row">
-    
-              <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar icon-bar1"></span>
-                <span class="icon-bar icon-bar2"></span>
-                <span class="icon-bar icon-bar3"></span>
-                </button>
-                <a class="navbar-brand hidden-lg hidden-md hidden-sm" href="#" title="Home | BookStore"><img src="resources/images/dimensions-it-logo-mini.png" alt="Dimensions IT Logo"></a>
-              </div>
-
+      <?php
+        session_start();
+        $myid = $_SESSION["userEmail"];
+        $fid = "123"
+        ?>
+   
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a href="#" title="Home | BookStore"><img class="img-responsive" src="resources/images/logo_dark.png" alt="BookStore Logo"></a>
+    </div>
               <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li ><a href="userMain.php">Home </a></li>
@@ -62,16 +70,142 @@
                     </li>    
                 </ul>
               </div>
-
-          </div>
         </nav>
 
-          </div>
-        </div>
-
-    </div>
 <!------------------------------------------------------------------------------------------------------------>
+    <div class="container">
+      <div class="chat" id="chat">
+        <div class="stream" id="cstream">
 
+      </div>
+      </div>
+      <div class="msg">
+          <form method="post" id="msenger" action="">
+            <textarea name="msg" id="msg-min"></textarea>
+            <input type="hidden" name="mid" value="<?php echo $myid;?>">
+            <input type="hidden" name="fid" id="friend" value="<?php echo $fid;?>">
+            <input type="submit" value="Send" id="sb-mt">
+          </form>
+      </div>
+      <div id="dataHelper" last-id=""></div>
+  </div>
+<script type="text/javascript">
+$(document).keyup(function(e){
+	if(e.keyCode == 13){
+		if($('#msenger textarea').val().trim() == ""){
+			$('#msenger textarea').val('');
+		}else{
+			$('#msenger textarea').attr('readonly', 'readonly');
+			$('#sb-mt').attr('disabled', 'disabled');	// Disable submit button
+			sendMsg();
+		}		
+	}
+});	
 
+$(document).ready(function() {
+    var fEmail = prompt("Please enter email address of your friend");
+    document.getElementById('friend').value = fEmail;
+    $('#msg-min').focus();
+	$('#msenger').submit(function(e){
+		$('#msenger textarea').attr('readonly', 'readonly');
+		$('#sb-mt').attr('disabled', 'disabled');	// Disable submit button
+		sendMsg();
+		e.preventDefault();	
+	});
+});
+
+function sendMsg(){
+	$.ajax({
+		type: 'post',
+		url: 'chatM.php?rq=new',
+		data: $('#msenger').serialize(),
+		dataType: 'json',
+		success: function(rsp){
+				$('#msenger textarea').removeAttr('readonly');
+				$('#sb-mt').removeAttr('disabled');	// Enable submit button
+				if(parseInt(rsp.status) == 0){
+					alert(rsp.msg);
+				}else if(parseInt(rsp.status) == 1){
+					$('#msenger textarea').val('');
+					$('#msenger textarea').focus();
+					//$design = '<div>'+rsp.msg+'<span class="time-'+rsp.lid+'"></span></div>';
+					$design = '<div class="float-fix">'+
+									'<div class="m-rply">'+
+										'<div class="msg-bg">'+
+											'<div class="msgA">'+
+												rsp.msg+
+												'<div class="">'+
+													'<div class="msg-time time-'+rsp.lid+'"></div>'+
+													'<div class="myrply-i"></div>'+
+												'</div>'+
+											'</div>'+
+										'</div>'+
+									'</div>'+
+								'</div>';
+					$('#cstream').append($design);
+
+					$('.time-'+rsp.lid).livestamp();
+					$('#dataHelper').attr('last-id', rsp.lid);
+					$('#chat').scrollTop($('#cstream').height());
+				}
+			}
+		});
+}
+function checkStatus(){
+	$fid = '<?php echo $fid; ?>';
+	$mid = '<?php echo $myid; ?>';
+	$.ajax({
+		type: 'post',
+		url: 'chatM.php?rq=msg',
+		data: {fid: $fid, mid: $mid, lid: $('#dataHelper').attr('last-id')},
+		dataType: 'json',
+		cache: false,
+		success: function(rsp){
+				if(parseInt(rsp.status) == 0){
+					return false;
+				}else if(parseInt(rsp.status) == 1){
+					getMsg();
+				}
+			}
+		});	
+}
+
+// Check for latest message
+setInterval(function(){checkStatus();}, 200);
+
+function getMsg(){
+	$fid = '<?php echo $fid; ?>';
+	$mid = '<?php echo $myid; ?>';
+	$.ajax({
+		type: 'post',
+		url: 'chatM.php?rq=NewMsg',
+		data:  {fid: $fid, mid: $mid},
+		dataType: 'json',
+		success: function(rsp){
+				if(parseInt(rsp.status) == 0){
+					//alert(rsp.msg);
+				}else if(parseInt(rsp.status) == 1){
+					$design = '<div class="float-fix">'+
+									'<div class="f-rply">'+
+										'<div class="msg-bg">'+
+											'<div class="msgA">'+
+												rsp.msg+
+												'<div class="">'+
+													'<div class="msg-time time-'+rsp.lid+'"></div>'+
+													'<div class="myrply-f"></div>'+
+												'</div>'+
+											'</div>'+
+										'</div>'+
+									'</div>'+
+								'</div>';
+					$('#cstream').append($design);
+					$('#chat').scrollTop ($('#cstream').height());
+					$('.time-'+rsp.lid).livestamp();
+					$('#dataHelper').attr('last-id', rsp.lid);	
+				}
+			}
+	});
+}
+</script>
   </body>
 </html>
