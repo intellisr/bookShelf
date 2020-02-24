@@ -19,8 +19,8 @@ if($row != null){
         $_SESSION["userName"] = $name;
         $_SESSION["userImg"] = $imgUrl;
         $_SESSION["userEmail"] = $email;
-        header('Location: /bookShelf/userMain.php'); 
-        exit();
+        $msg="logedIn";
+        echo json_encode(array("code" => "200", "msg" => $msg ));       
 }else{
       try{
             $sql= "INSERT INTO buyer(Uid, Uname) VALUES ('$id','$name')";
@@ -35,7 +35,7 @@ if($row != null){
         $_SESSION["userImg"] = $imgUrl;
         $_SESSION["userEmail"] = $email;
         
-        
+        echo json_encode(array("code" => "200", "msg" => $msg ));    
 }
       
 ob_end_flush();

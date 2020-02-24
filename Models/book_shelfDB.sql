@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 23, 2020 at 05:20 PM
+-- Generation Time: Feb 24, 2020 at 10:59 AM
 -- Server version: 5.6.26
 -- PHP Version: 5.6.12
 
@@ -36,8 +36,33 @@ CREATE TABLE IF NOT EXISTS `buyer` (
 --
 
 INSERT INTO `buyer` (`Uid`, `Uname`) VALUES
+('', ''),
 ('109126704082262282581', 'Sathira Rumal Aroshan SRA'),
+('113935104950671339600', 'intellisr solutions'),
 ('113986104365895551189', 'sathira rumal');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `msg`
+--
+
+CREATE TABLE IF NOT EXISTS `msg` (
+  `id` int(100) NOT NULL,
+  `to` text NOT NULL,
+  `from` text NOT NULL,
+  `msg` text NOT NULL,
+  `status` text NOT NULL,
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `msg`
+--
+
+INSERT INTO `msg` (`id`, `to`, `from`, `msg`, `status`, `time`) VALUES
+(1, 'wije', 'malsha', 'hi', '1', '2020-02-24 08:41:11'),
+(2, 'wije', 'malsha', 'hi\r\n', '1', '2020-02-24 08:53:32');
 
 -- --------------------------------------------------------
 
@@ -52,7 +77,8 @@ CREATE TABLE IF NOT EXISTS `shop` (
   `lat` float(10,6) NOT NULL,
   `lng` float(10,6) NOT NULL,
   `type` varchar(30) NOT NULL,
-  `password` varchar(255) DEFAULT NULL
+  `password` varchar(255) DEFAULT NULL,
+  `cover` longblob
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -80,7 +106,8 @@ CREATE TABLE IF NOT EXISTS `user_books` (
   `isbn` varchar(255) NOT NULL,
   `user_id` varchar(50) DEFAULT NULL,
   `name` varchar(50) DEFAULT NULL,
-  `author` varchar(255) DEFAULT NULL
+  `author` varchar(255) DEFAULT NULL,
+  `cover` longblob
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -106,6 +133,12 @@ CREATE TABLE IF NOT EXISTS `user_location` (
 --
 ALTER TABLE `buyer`
   ADD PRIMARY KEY (`Uid`);
+
+--
+-- Indexes for table `msg`
+--
+ALTER TABLE `msg`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `shop`
@@ -135,6 +168,11 @@ ALTER TABLE `user_location`
 -- AUTO_INCREMENT for dumped tables
 --
 
+--
+-- AUTO_INCREMENT for table `msg`
+--
+ALTER TABLE `msg`
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `shop`
 --
