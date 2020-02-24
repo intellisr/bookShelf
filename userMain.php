@@ -129,10 +129,13 @@
               
           <div id="search-by-cover" class="col-md-4">
               <h2>Search By Cover</h2>
-            <form method="POST" action="pictureUpload.php" enctype="multipart/form-data" id="upload">                   
+              <form method="POST" action="UploadFile.php" enctype="multipart/form-data" id="upload">                   
                     <div class="row">
                         <div class="col-md-4">
                             <input type="file" name="image" id="image">
+                             <button class="btn btn-default" type="submit">
+                                <i class="glyphicon glyphicon-search"></i>
+                            </button>
                         </div>
                     </div>
             </form>
