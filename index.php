@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="google-signin-client_id" content="490351122846-0ksjact0kmjjgde6cmii0a99sk746jfe.apps.googleusercontent.com">
+    <meta name="google-signin-client_id" content="1092812187248-6c9r35e1fn7uccm3ml0e4ohmd4luld48.apps.googleusercontent.com">
        <title>Home | BookStore</title>
    
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700|Open+Sans:300,400,600|Roboto+Condensed:300,400,700|Roboto:100,300,400,700&display=swap" rel="stylesheet">
@@ -124,7 +124,7 @@
             
              <div class="Shop">   
                 <form class="form-signin" id="login" method="post">
-                    <input type="text" class="form-control" placeholder="Shop" name="shop" required autofocus>
+                    <input type="text" class="form-control" placeholder="Email" name="shop" required autofocus>
                     <input type="password" class="form-control" placeholder="Password" name="pw"  required>
                     <button class="btn btn-lg btn-primary btn-block" type="button" onclick="shopLogin()">
                     Sign in</button>

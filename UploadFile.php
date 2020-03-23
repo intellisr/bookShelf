@@ -1,51 +1,41 @@
 
 <?php
 $root=$_SERVER['DOCUMENT_ROOT'];
-include("$root/bookShelf/ocr.php");
+session_start();
 
-$target_dir = "covers/";
+require_once __DIR__ . '/vendor/autoload.php';
+use thiagoalessio\TesseractOCR\TesseractOCR;
+
+$target_dir = "/bookShelf/covers/";
 $target_file = $target_dir . basename($_FILES["image"]["name"]);
 $uploadOk = 1;
 $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-// Check if image file is a actual image or fake image
-if(isset($_POST["submit"])) {
-    $check = getimagesize($_FILES["image"]["tmp_name"]);
-    if($check !== false) {
-        echo "File is an image - " . $check["mime"] . ".";
-        $uploadOk = 1;
-    } else {
-        echo "File is not an image.";
-        $uploadOk = 0;
-    }
+
+$loc=$root.$target_dir;
+
+shell_exec('"C:\\Program Files (x86)\\Tesseract-OCR\\tesseract" "A:\\SOFTWARE\\xampp\\htdocs\\bookShelf\\covers\\'.$_FILES["image"]["name"].'" out');
+
+$myfile = fopen("out.txt", "r") or die("Unable to open file!");
+$text=fread($myfile,filesize("out.txt"));
+fclose($myfile);
+
+if($text == ""){
+   $_SESSION["imgText"] ="wrong";
+   header("Location:userMain.php");
+}else{
+   $_SESSION["imgText"] = $text;
+   header("Location:userMain.php");
 }
-// Check if file already exists
-if (file_exists($target_file)) {
-    echo "Sorry, file already exists.";
-    $uploadOk = 0;
-}
-// Check file size
-if ($_FILES["image"]["size"] > 500000) {
-    echo "Sorry, your file is too large.";
-    $uploadOk = 0;
-}
-// Allow certain file formats
-if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-&& $imageFileType != "gif" ) {
-    echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-    $uploadOk = 0;
-}
-// Check if $uploadOk is set to 0 by an error
-if ($uploadOk == 0) {
-    echo "Sorry, your file was not uploaded.";
-// if everything is ok, try to upload file
-} else {
-    if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-        echo "The file ". basename( $_FILES["image"]["name"]). " has been uploaded.";
-        //$data=getText( basename( $_FILES["image"]["name"]));
-        //echo $data;       
-    } else {
-        echo "Sorry, there was an error uploading your file.";
-    }
-}
+
+
+
+
+
+
+
+
+
+
+
 
 

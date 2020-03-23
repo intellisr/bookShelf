@@ -51,6 +51,8 @@
                 <ul class="nav navbar-nav">
                     <li ><a href="shopMain.php">Home </a></li>
                     <li class="active"><a href="shopAddBooks.php">Add Books</a></li>
+                    <li class="divider"></li>
+                    <li><a href="Controllers/logout.php">Log out</a></li>
                 </ul>
               </div>
 
@@ -69,25 +71,25 @@
     <div class="col-sm-12">
         <div class="col-sm-6">
             <div class="signup-form">
-                <form action="/examples/actions/confirmation.php" method="post">
+                <form action="Controllers/addBooks.php" method="post">
                     <div class="text-center">
                         <h2>Insert Books</h2>
                     </div>
                     
                     <div class="form-group">
-                        <input type="text" class="form-control" id="edit_name" name="isbn" placeholder="ISBN" required="required">
+                        <input type="text" class="form-control" name="isbn" placeholder="ISBN" required="required">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="edit_position" name="name" placeholder="Name" required="required">
+                        <input type="text" class="form-control"  name="name" placeholder="Name" required="required">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="edit_office" name="author" placeholder="Author" required="required">
+                        <input type="text" class="form-control"  name="author" placeholder="Author" required="required">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="edit_office" name="price" placeholder="Price" required="required">
+                        <input type="text" class="form-control"  name="price" placeholder="Price" required="required">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="edit_office" name="quantity" placeholder="Quantity" required="required">
+                        <input type="text" class="form-control"  name="quantity" placeholder="Quantity" required="required">
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-success btn-lg btn-block">Add</button>

@@ -17,10 +17,11 @@
 
   </head>
   <body background="resources/images/shopBackground.jpg">
-  
+ <?php $root=$_SERVER['DOCUMENT_ROOT'];
+    include("$root/bookShelf/Controllers/common.php"); ?>
     <!--Start of Header Row-->
     <div id="header-row">
-      
+      <?php session_start();  ?>
       <!--Start of Header-->
         <div id="header" class="container">         
           <div class="row">
@@ -47,8 +48,11 @@
 
               <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
+                    <li class="h2"><?php echo $_SESSION["shopName"];?></li>
                     <li class="active"><a href="shopMain.php">Home </a></li>
                     <li><a href="shopAddBooks.php">Add Books</a></li>
+                    <li class="divider"></li>
+                    <li><a href="Controllers/logout.php">Log out</a></li>
                 </ul>
               </div>
 
@@ -78,28 +82,18 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr >
-                    <td>Tiger Nixon</td>
-                    <td>System Architect</td>
-                    <td>Edinburgh</td>
-                    <td>61</td>
-                    <td>2011/04/25</td>
-                </tr>          
-                <tr onclick="tableDataLoad(3)">
-                    <td><input type="hidden" id="3_name" value="Ashton Cox">Ashton Cox</td>
-                    <td><input type="hidden" id="3_position" value="Junior Technical Author">Junior Technical Author</td>
-                    <td><input type="hidden" id="3_office" value="San Francisco">San Francisco</td>
-                    <td>66</td>
-                    <td>2009/01/12</td>
+                <?php
+                $result= common::getbooks();
+                while ($rows= mysqli_fetch_array($result)){?>
+                    
+                 <tr onclick="tableDataLoad('<?php echo $rows['isbn']; ?>',<?php echo $rows['price']; ?>,<?php echo $rows['quantity']; ?>)">
+                    <td ><?php echo $rows['isbn']; ?></td>
+                    <td ><?php echo $rows['name']; ?></td>
+                    <td ><?php echo $rows['author']; ?></td>
+                    <td ><?php echo $rows['price']; ?></td>
+                    <td ><?php echo $rows['quantity']; ?></td>
                 </tr>
-
-                <tr onclick="tableDataLoad(1)">
-                    <td><input type="hidden" id="1_name" value="Airi Satou">Airi Satou</td>
-                    <td><input type="hidden" id="1_position" value="Accountant">Accountant</td>
-                    <td><input type="hidden" id="1_office" value="Tokyo">Tokyo</td>
-                    <td>33</td>
-                    <td>2008/11/28</td>
-                </tr>
+                <?php } ?>
                 </tbody>
        
             </table>
@@ -112,13 +106,13 @@
                         <!--                    <p class="hint-text">Create your account. It's free and only takes a minute.</p>-->
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="edit_name" name="edit_name" placeholder="ISBN" required="required">
+                        <input type="text" class="form-control" id="isbn" name="isbn" placeholder="ISBN" required="required">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="edit_position" name="edit_position" placeholder="Name" required="required">
+                        <input type="text" class="form-control" id="pri" name="price" placeholder="Name" required="required">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="edit_office" name="edit_office" placeholder="Quantity" required="required">
+                        <input type="text" class="form-control" id="quan" name="quantity" placeholder="Quantity" required="required">
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-success btn-lg btn-block">Update</button>
@@ -172,10 +166,10 @@
 
     });
 
-    function tableDataLoad(id){
-        $('#edit_name').val($('#'+id+'_name').val());
-        $('#edit_position').val($('#'+id+'_position').val());
-        $('#edit_office').val($('#'+id+'_office').val());
+    function tableDataLoad(id,price,quan){
+        $('#isbn').val(id);
+        $('#pri').val(price);
+        $('#quan').val(quan);
     }
 
 

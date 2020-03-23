@@ -14,6 +14,9 @@
     <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link href="resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="resources/css/style.css" rel="stylesheet">
+    
+    <script src="resources/js/jquery-1.11.2.min.js"></script>
+    <script src="resources/js/bootstrap.min.js"></script>
 
   </head>
   <body background="resources/images/shopBackground.jpg">
@@ -64,24 +67,36 @@
 <!------------------------------------------------------------------------------------------------------------>
     <div class ="container">
         <div class="signup-form col-sm-6">
-            <form action="/examples/actions/confirmation.php" method="post">
+            <form action="Controllers/shopRegister.php" method="post">
                 <div class="text-center">
                     <h2>Register</h2>
-<!--                    <p class="hint-text">Create your account. It's free and only takes a minute.</p>-->
                 </div>
 
                 <div class="form-group">
-                    <div class="row">
-                        <div class="col-xs-6"><input type="text" class="form-control" name="first_name" placeholder="First Name" required="required"></div>
-                        <div class="col-xs-6"><input type="text" class="form-control" name="last_name" placeholder="Last Name" required="required"></div>
-                    </div>
+                    <input type="text" class="form-control" name="name" placeholder="Shop Name" required="required">
                 </div>
+                
                 <div class="form-group">
                     <input type="email" class="form-control" name="email" placeholder="Email" required="required">
                 </div>
+                
+                <div class="form-group">
+                    <input type="text" class="form-control" id="ad" name="address" placeholder="Address" required="required">
+                    <a onclick="getlonlat()">GET latitude & longitude</a>
+                </div>
+                
+                <div class="form-group">
+                    <input type="text" class="form-control" id="lat" name="latitude" placeholder="latitude" required="required">
+                </div>
+                
+                <div class="form-group">
+                    <input type="text" class="form-control" id="lng" name="longitude" placeholder="longitude" required="required">
+                </div>
+                
                 <div class="form-group">
                     <input type="password" class="form-control" name="password" placeholder="Password" required="required">
                 </div>
+                
                 <div class="form-group">
                     <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password" required="required">
                 </div>
@@ -97,34 +112,27 @@
 <!------------------------------------------------------------------------------------------------------------>
 
 <script type="text/javascript">
-    $(function() {
-
-        $('#da-slider').cslider({
-            autoplay  : true,
-            bgincrement : 450
+    
+    function getlonlat(){
+        var address=$("#ad").val();
+        var extraData = "address=" + address;
+        //console.log(extraData);
+        jQuery.ajax({
+        type: "POST",
+        url: '/bookShelf/Controllers/getLngLat.php',
+        dataType: 'json',
+        data: extraData,        
+        success: function(data){
+            if(data.code == 200){
+               $("#lat").val(data.lati);
+               $("#lng").val(data.long);
+             }else{
+               $("#lat").val("please enter valid address");
+               $("#lng").val("please enter valid address");  
+             }     
+         }
         });
-
-        $(document).ready(function() {
-            $('#example').DataTable();
-        } );
-
-
-        $window = $(window);
-        var $scroll = $('#bottom-full');
-        $(window).scroll(function() {
-            var yPos = -($window.scrollTop() / $scroll.data('speed'));
-            var coords = '50% '+ yPos + 'px';
-            $scroll.css({ backgroundPosition: coords });
-        });
-
-    });
-
-    function tableDataLoad(id){
-        $('#edit_name').val($('#'+id+'_name').val());
-        $('#edit_position').val($('#'+id+'_position').val());
-        $('#edit_office').val($('#'+id+'_office').val());
     }
-
 
 </script>
 

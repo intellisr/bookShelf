@@ -16,39 +16,14 @@
         <script src="resources/chatRoom/moment.min.js"></script>
         <script src="resources/chatRoom/livestamp.js"></script>
         <link rel="stylesheet" type="text/css" href="resources/chatRoom/style.css">
-
-    <style>
-
-        #view_ajax {
-         display: block;
-         overflow: auto;
-         width: 500px; 
-         height: 300px; 
-        border: 1px solid #333;
-        margin: 0 auto;
-        margin-top: 20px;
-        }
-
-        #ajaxForm{
-        display: block;
-        margin: 0 auto;
-        width: 500px; 
-         height: 50px;
-        margin-top: 10px;
-        }
-
-        #chatInput{
-        width: 454px;
-        }
-    </style>
   </head>
   <body background="resources/images/shopBackground.jpg">
       
       <?php
         session_start();
-        $myid = $_SESSION["userEmail"];
-        $fid = "123"
-        ?>
+        $myid = $_SESSION["userName"];
+        $fid = $_GET['chatId'];
+      ?>
    
 <nav class="navbar navbar-default">
   <div class="container-fluid">
@@ -102,9 +77,7 @@ $(document).keyup(function(e){
 	}
 });	
 
-$(document).ready(function() {
-    var fEmail = prompt("Please enter email address of your friend");
-    document.getElementById('friend').value = fEmail;
+$(document).ready(function() {    
     $('#msg-min').focus();
 	$('#msenger').submit(function(e){
 		$('#msenger textarea').attr('readonly', 'readonly');
