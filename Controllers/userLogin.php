@@ -20,11 +20,15 @@ if($row != null){
         $_SESSION["userImg"] = $imgUrl;
         $_SESSION["userEmail"] = $email;
         $_SESSION["shops"] ="no";
+        $_SESSION["friend"] = "no";
+        $_SESSION["lat"] = $row['lat'];
+        $_SESSION["lng"] = $row['lng'];
+        
         $msg="logedIn";
         echo json_encode(array("code" => "200", "msg" => $msg ));       
 }else{
       try{
-            $sql= "INSERT INTO buyer(Uid, Uname) VALUES ('$id','$name')";
+            $sql= "INSERT INTO buyer(Uid, Uname,proPic) VALUES ('$id','$name','$imgUrl')";
             $dbs->query($sql);
         }
         catch (Exception $ex){
@@ -36,6 +40,7 @@ if($row != null){
         $_SESSION["userImg"] = $imgUrl;
         $_SESSION["userEmail"] = $email;
         $_SESSION["shops"] ="no";
+        $_SESSION["friend"] = "no";
         
         echo json_encode(array("code" => "200", "msg" => $msg ));    
 }

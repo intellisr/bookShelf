@@ -1,7 +1,9 @@
 <?php
-// Connection
-$conn = mysql_connect("localhost", 'root', '');
-$db = mysql_select_db("book_shelf", $conn);
+$root=$_SERVER['DOCUMENT_ROOT'];
+include("$root/bookShelf/Models/Connection.php");
+session_start();
+
+$db = Connection::connect();  
 $json = '';
 if(isset($_GET['rq'])):
 	switch($_GET['rq']):
@@ -12,11 +14,11 @@ if(isset($_GET['rq'])):
 			if(empty($msg)){
 				//$json = array('status' => 0, 'msg'=> 'Enter your message!.');
 			}else{
-				$qur = mysql_query('insert into msg set `to`="'.$fid.'", `from`="'.$myid.'", `msg`="'.$msg.'", `status`="1"');
+				$qur = mysqli_query($db ,'insert into msg set `to`="'.$fid.'", `from`="'.$myid.'", `msg`="'.$msg.'", `status`="1"');
 				if($qur){
-					$qurGet = mysql_query("select * from msg where id='".mysql_insert_id()."'");
-					while($row = mysql_fetch_array($qurGet)){
-						$json = array('status' => 1, 'msg' => $row['msg'], 'lid' => mysql_insert_id(), 'time' => $row['time']);
+					$qurGet = mysqli_query($db ,"select * from msg where id='".mysqli_insert_id()."'");
+					while($row = mysqli_fetch_array($qurGet)){
+						$json = array('status' => 1, 'msg' => $row['msg'], 'lid' => mysqli_insert_id(), 'time' => $row['time']);
 					}
 				}else{
 					$json = array('status' => 0, 'msg'=> 'Unable to process request.');
@@ -31,8 +33,8 @@ if(isset($_GET['rq'])):
 
 			}else{
 				//print_r($_POST);
-				$qur = mysql_query("select * from msg where `to`='$myid' && `from`='$fid' && `status`=1");
-				if(mysql_num_rows($qur) > 0){
+				$qur = mysqli_query($db ,"select * from msg where `to`='$myid' && `from`='$fid' && `status`=1");
+				if(mysqli_num_rows($qur) > 0){
 					$json = array('status' => 1);
 				}else{
 					$json = array('status' => 0);
@@ -43,17 +45,17 @@ if(isset($_GET['rq'])):
 			$myid = $_POST['mid'];
 			$fid = $_POST['fid'];
 
-			$qur = mysql_query("select * from msg where `to`='$myid' && `from`='$fid' && `status`=1 order by id desc limit 1");
-			while($rw = mysql_fetch_array($qur)){
+			$qur = mysqli_query($db ,"select * from msg where `to`='$myid' && `from`='$fid' && `status`=1 order by id desc limit 1");
+			while($rw = mysqli_fetch_array($qur)){
 				$json = array('status' => 1, 'msg' => '<div>'.$rw['msg'].'</div>', 'lid' => $rw['id'], 'time'=> $rw['time']);
 			}
 			// update status
-			$up = mysql_query("UPDATE `msg` SET  `status` = '0' WHERE `to`='$myid' && `from`='$fid'");
+			$up = mysqli_query($db ,"UPDATE `msg` SET  `status` = '0' WHERE `to`='$myid' && `from`='$fid'");
 		break;
 	endswitch;
 endif;
 
-@mysql_close($conn);
+@mysqli_close($conn);
 header('Content-type: application/json');
 echo json_encode($json);
 ?>

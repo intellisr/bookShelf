@@ -9,6 +9,9 @@ $latitude=$_POST['latitude'];
 $longitude=$_POST['longitude'];
 $address=$_POST['address'];
 
+$_SESSION["lat"]=$latitude;
+$_SESSION["lng"]=$longitude;
+
  $dbs = Connection::connect();   
  
       try{

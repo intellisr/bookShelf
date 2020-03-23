@@ -7,5 +7,7 @@ $_SESSION["userEmail"] = null;
 $_SESSION["shopName"] = null;
 $_SESSION["shopId"] = null;
 $_SESSION["shops"] = null;
+$_SESSION["lat"] = null;
+$_SESSION["lng"] = null;
 
 header("Location: ../index.php");

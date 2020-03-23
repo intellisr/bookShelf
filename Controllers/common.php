@@ -15,4 +15,14 @@ class common {
       return $result;
     }
     
+    public static function getbooksMy(){
+      $dbs = Connection::connect();  
+      $Id = $_SESSION['userId'];
+      
+      $sql = "SELECT * FROM user_books WHERE user_id = '$Id'";
+      $result = mysqli_query($dbs,$sql);
+
+      return $result;
+    }
+    
 }

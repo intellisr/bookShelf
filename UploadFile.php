@@ -1,6 +1,7 @@
 
 <?php
 $root=$_SERVER['DOCUMENT_ROOT'];
+session_start();
 
 require_once __DIR__ . '/vendor/autoload.php';
 use thiagoalessio\TesseractOCR\TesseractOCR;
@@ -18,12 +19,12 @@ $myfile = fopen("out.txt", "r") or die("Unable to open file!");
 $text=fread($myfile,filesize("out.txt"));
 fclose($myfile);
 
-echo $text;
-
 if($text == ""){
-    
+   $_SESSION["imgText"] ="wrong";
+   header("Location:userMain.php");
 }else{
-    
+   $_SESSION["imgText"] = $text;
+   header("Location:userMain.php");
 }
 
 

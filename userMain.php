@@ -24,7 +24,21 @@
     <div id="header-row">
       <?php session_start();
       $result=$_SESSION["shops"];
-      ?>
+      
+      $lat=$_SESSION["lat"];
+      $lng=$_SESSION["lng"];
+      if($lat == null){?>
+        <script>
+            var r = confirm("Please Submit yor location to continue");
+            if (r == true) {
+                window.location = 'http://localhost/bookShelf/LocationChange.php';
+            } else {
+                window.location = 'http://localhost/bookShelf/LocationChange.php';
+            }
+       </script>    
+        
+      <?php } ?>
+       
       <!--Start of Header-->
         <div id="header" class="container">         
           <div class="row">
@@ -55,7 +69,7 @@
                     <li ><a href="shareBooks.php">Share Books</a></li>
                     <li><a href="chatRoom.php">Chat Room</a></li>
                     <li class="dropdown">                        
-                        <img src="<?php echo $_SESSION["userImg"]; ?>" class="img-circle dropdown-toggle"  data-toggle="dropdown" class="" alt="Cinque Terre" width="45" height="45"><b class="caret"></b>
+                        <img src="<?php echo $_SESSION["userImg"];?>" class="img-circle dropdown-toggle"  data-toggle="dropdown" class="" alt="Cinque Terre" width="45" height="45"><b class="caret"></b>
                         <ul class="dropdown-menu">
                             <li><a href="https://myaccount.google.com/"> <?php echo $_SESSION["userName"];?></a></li>
                             <li><a href=""> Shopping Cart</a></li>
@@ -113,16 +127,15 @@
             <div id="search-by-isbn" class="col-md-4">
               <form>
                 <div class="input-group">
-                  <input type="text" class="form-control" placeholder="Search By ISBN">
+                  <input id="byISBN"type="text" class="form-control" placeholder="Search By ISBN">
                   <div class="input-group-btn">
-                    <button class="btn btn-default" type="submit">
+                      <button class="btn btn-default" type="button" onclick="searchByISBN()">
                       <i class="glyphicon glyphicon-search"></i>
                     </button>
                   </div>
                 </div>
               </form>
             </div>
-
           </div>
             <div class="row">
                 <div id="search-by-isbn" class="col-md-12">
@@ -144,31 +157,26 @@
         <div class="row">
           <div id="map" class="col-md-12"></div>
       <script>
-          
-       function getMylocation(){
-           if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(initMap);
-            } else {
-                x.innerHTML = "Geolocation is not supported by this browser.";
-            }
-       }
        
       var map;
       var markers = [];
       var infoWindow;
       var locationSelect;
+      var marker1, marker2;
+      var poly, geodesicPoly;
 
         function initMap(status,xlat,xlng) {
           
-          var lat=6.907659;
-          var lng=79.85078;
+          var lat=<?php echo $lat; ?>;
+          var lng=<?php echo $lng; ?>;
                       
           var myLoc = {lat: lat, lng: lng};
           var name='<?php echo $_SESSION["userName"];?>';
           var dis='<?php echo $_SESSION["userEmail"];?>';
+                    
           
           if(status == null){              
-          //console.log(myLoc);
+
           map = new google.maps.Map(document.getElementById('map'), {
             center: myLoc,
             zoom: 12,
@@ -178,7 +186,6 @@
           infoWindow = new google.maps.InfoWindow();
           
           createMarker(myLoc,name,dis);
-          searchButton = document.getElementById("searchButton").onclick = searchLocations;
 
           locationSelect = document.getElementById("locationSelect");
           locationSelect.onchange = function() {
@@ -194,25 +201,28 @@
                       
               map = new google.maps.Map(document.getElementById('map'), {
                 center: myLoc,
-                zoom: 12,
-                mapTypeId: 'roadmap'
+                zoom: 13,
+                mapTypeId: 'roadmap',
               });
-              
-              map.controls[google.maps.ControlPosition.TOP_CENTER].push(
-              document.getElementById('info'));
+             
+             infoWindow = new google.maps.InfoWindow();              
 
                 marker1 = new google.maps.Marker({
                   map: map,
-                  draggable: true,
                   position: myLoc
                 });
 
-                marker2 = new google.maps.Marker({
-                  map: map,
-                  draggable: true,
-                  position: place2
+                var html = "<b>" + name + "</b> <br/>" + dis;
+                
+                google.maps.event.addListener(marker1, 'click', function() {
+                infoWindow.setContent(html);
+                infoWindow.open(map, marker1);
                 });
                 
+                marker2 = new google.maps.Marker({
+                  map: map,
+                  position: place2
+                });
 
                 var bounds = new google.maps.LatLngBounds(
                     marker1.getPosition(), marker2.getPosition());
@@ -220,6 +230,8 @@
 
                 google.maps.event.addListener(marker1, 'position_changed', update);
                 google.maps.event.addListener(marker2, 'position_changed', update);
+                
+                map.setZoom(12);
 
                 poly = new google.maps.Polyline({
                   strokeColor: '#FF0000',
@@ -237,6 +249,7 @@
                 });
 
                 update();
+                
           }    
               
         }
@@ -302,7 +315,7 @@
 
        function doNothing() {}
        </script>
-          <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAO4dxoeUInCf3G8HaAr8gPwbD-o9YX46I&libraries=places&callback=initMap" async defer></script>
+       <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAO4dxoeUInCf3G8HaAr8gPwbD-o9YX46I&libraries=places&callback=initMap" async defer></script>
         </div>
       </div>
     </div>
@@ -313,33 +326,42 @@
         ?>
         <div class="col-md-4 col-sm-4 col-xs-6 box-def grid">
           <figure class="effect-ruby">
-            <img class="img-responsive" src="resources/images/cover.jpg" >
-            <figcaption>
-              <h2>Sarasavi Book Shop</h2>
-              <p>Name : Horton</p>
-              <a href="#">Price : 1000.00</a>
-            </figcaption>     
+              <img class="img-responsive" src="resources/images/slider/k.png" >  
           </figure>
         </div>
         
+        <div class="col-md-4 col-sm-4 col-xs-6 box-def grid">
+          <figure class="effect-ruby">
+              <img class="img-responsive" src="resources/images/slider/r.png" >    
+          </figure>
+        </div>
+          
+        <div class="col-md-4 col-sm-4 col-xs-6 box-def grid">
+          <figure class="effect-ruby">
+              <img class="img-responsive" src="resources/images/slider/p.png" >    
+          </figure>
+        </div>  
           
         <?php   
-            }else{                 
-            $length = count($result);
-            for($i=0;$i<$length;$i++){
-        ?> 
+            }else{ ?>
+          
           <script>
              initMap(1,<?php echo $result[0]['lat']; ?>,<?php echo $result[0]['lng']; ?>);
           </script>
           
+        <?php    
+            $length = count($result);
+            for($i=0;$i<$length;$i++){
+        ?> 
+                   
         <div class="col-md-4 col-sm-4 col-xs-6 box-def grid"> 
-          <figure class="effect-ruby">
-              <img class="img-responsive" src="resources/images/cover.jpg" onclick="initMap(1,<?php echo $result[$i]['lat']; ?>,<?php echo $result[$i]['lng']; ?>);">
+          <figure class="effect-ruby" onclick="initMap(1,<?php echo $result[$i]['lat']; ?>,<?php echo $result[$i]['lng']; ?>);">
+              <?php echo '<img src="data:image/jpeg;base64,'.base64_encode( $result[$i]['cover'] ).'" class="img-responsive" >'; ?>
             <figcaption>
-                <h3><?php echo $i+1; ?>.Distance :<?php echo round($result[$i]['distance']*10,1); ?>KM</h3>
-              <h2><?php echo $result[$i]['name']; ?></h2>
-              <p>Name : Horton</p>
-              <a href="#">Price : 1000.00</a>
+              <h4><?php echo $i+1; ?>.Distance :<?php echo round($result[$i]['distance']*10,1); ?>KM</h4>
+              <h3><?php echo $result[$i]['name']; ?></h3>
+              <h4>BOOK : <?php echo $result[$i]['bookName']; ?></h4>
+              <h4>PRICE : <?php echo $result[$i]['price']; ?></h4>
             </figcaption>     
           </figure>
         </div>
@@ -348,26 +370,14 @@
             }}
         ?>     
        </div>
-    
-
-
+               
+           
+       
   </body>
 </html>
 
 <script>
-    
-    $(function(){       
-       getMylocation();
-    });
-    
-    function nearLocations(){
-         if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(initMap);
-            } else {
-                x.innerHTML = "Geolocation is not supported by this browser.";
-            }
-    }
-    
+        
     function searchByName(){
         
         var text=$("#byName").val();
@@ -378,9 +388,28 @@
         dataType: 'json',
         data: "text=" + text + "&type=" +type,        
         success: function(data){
-             navigator.geolocation.getCurrentPosition(SendData);
              if(data.code == 200){
                   var list=data.msg;
+                  SendData(list,type);
+             }
+         }
+        });
+        
+    }
+    
+    function searchByISBN(){
+        
+        var text=$("#byISBN").val();
+        var type=2;
+        jQuery.ajax({
+        type: "POST",
+        url: '/bookShelf/Controllers/search.php',
+        dataType: 'json',
+        data: "text=" + text + "&type=" +type,        
+        success: function(data){
+             if(data.code == 200){
+                  var list=data.msg;
+                  SendData(list,type);
              }
          }
         });
@@ -388,16 +417,14 @@
     }
     
     
-    function SendData(position){
+    function SendData(list,type){
         
-        //var lat =position.coords.latitude;
-        var lat=6.907659;
-        var lng=79.85078;
-        //var lng=position.coords.longitude;
+        var lat=<?php echo $lat; ?>;
+        var lng=<?php echo $lng; ?>;
         var rad=$("#radiusSelect").val();
-        var where="id NOT IN (1,2)";
-        var extraData = "lat=" + lat + "&lng=" +lng+ "&radius=" + rad + "&where=" +where;
-        //console.log(extraData);
+        var where=list;
+        var ty=type;
+        var extraData = "lat=" + lat + "&lng=" +lng+ "&radius=" + rad + "&where=" + where + "&type=" + ty;
         jQuery.ajax({
         type: "GET",
         url: '/bookShelf/LocationSearch.php',

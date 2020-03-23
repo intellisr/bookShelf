@@ -5,19 +5,17 @@ include("$root/bookShelf/Models/Connection.php");
 session_start();
 
 $id=$_SESSION["userId"]; 
-$name=$_POST['name'];
 $isbn=$_POST['isbn'];
-$author=$_POST['author'];
-$price=$_POST['price'];
+
 
  $dbs = Connection::connect();
  
       try{
-           $sql = "INSERT INTO user_books (isbn,name,author,price,user_id)"
-             . "values ('$isbn', '$name', '$author','$price','$id')";
+           $sql = "DELETE FROM user_books WHERE isbn='$isbn' and user_id='$id'";
             $dbs->query($sql);
          } catch (Exception $ex) {
              return $ex;
          }
          
-header("Location:../shareBooks.php");
+$msg="done";
+echo json_encode(array("code" => "200", "msg" => $msg ));  
