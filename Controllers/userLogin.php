@@ -19,6 +19,7 @@ if($row != null){
         $_SESSION["userName"] = $name;
         $_SESSION["userImg"] = $imgUrl;
         $_SESSION["userEmail"] = $email;
+        $_SESSION["shops"] ="no";
         $msg="logedIn";
         echo json_encode(array("code" => "200", "msg" => $msg ));       
 }else{
@@ -34,6 +35,7 @@ if($row != null){
         $_SESSION["userName"] = $name;
         $_SESSION["userImg"] = $imgUrl;
         $_SESSION["userEmail"] = $email;
+        $_SESSION["shops"] ="no";
         
         echo json_encode(array("code" => "200", "msg" => $msg ));    
 }

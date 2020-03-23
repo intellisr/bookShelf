@@ -160,7 +160,7 @@
       <div class="container">
         <div class="row">
           <div id="map" class="col-md-12"></div>
-          <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDq1uR22iiKmJe8aefKswWa4Td_gok0Mmk&libraries=places&callback=initMap" async defer></script>
+          <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAO4dxoeUInCf3G8HaAr8gPwbD-o9YX46I&libraries=places&callback=initMap" async defer></script>
            </div>
         </div>
     </div>

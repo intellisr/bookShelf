@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-    <?php ob_start(); ?>
+    <?php  
+    $root=$_SERVER['DOCUMENT_ROOT'];
+    include("$root/bookShelf/Models/Connection.php");
+    $dbs = Connection::connect(); 
+    ?>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,62 +18,13 @@
     <link href="resources/css/style.css" rel="stylesheet">
     <script src="resources/js/jquery-1.11.2.min.js"></script>
     <script src="resources/js/bootstrap.min.js"></script>
-
-    <script>
-      var map;
-      var service;
-      var infowindow;
-
-      function initMap(lat, lng) {
-        //var sydney = new google.maps.LatLng(6.9061, 79.9696);
-        var sydney = new google.maps.LatLng(lat, lng);
-        infowindow = new google.maps.InfoWindow();
-
-        map = new google.maps.Map(
-            document.getElementById('map'), {center: sydney, zoom: 15});
-
-        var request = {
-          query: 'No:661 P De S Kularatne Mawatha, Colombo 01000',
-          fields: ['name', 'geometry']
-        };
-
-        service = new google.maps.places.PlacesService(map);
-
-        service.findPlaceFromQuery(request, function(results, status) {
-          if (status === google.maps.places.PlacesServiceStatus.OK) {
-            for (var i = 0; i < results.length; i++) {
-              createMarker(results[i]);
-            }
-
-            map.setCenter(results[0].geometry.location);
-          }
-        });
-      }
-
-      function createMarker(place) {
-        var marker = new google.maps.Marker({
-          map: map,
-          position: place.geometry.location
-        });
-
-        google.maps.event.addListener(marker, 'click', function() {
-          infowindow.setContent(place.name);
-          infowindow.open(map, this);
-        });
-      }
-
-      function nameChanged(){
-        initMap(6.9061, 79.9696);
-    }
-      
-    </script>
-
-
   </head>
     <body background="resources/images/shopBackground.jpg">
     <!--Start of Header Row-->
     <div id="header-row">
-      
+      <?php session_start();
+      $result=$_SESSION["shops"];
+      ?>
       <!--Start of Header-->
         <div id="header" class="container">         
           <div class="row">
@@ -99,12 +54,14 @@
                     <li class="active"><a href="userMain.php">Home </a></li>
                     <li ><a href="shareBooks.php">Share Books</a></li>
                     <li><a href="chatRoom.php">Chat Room</a></li>
-                    <li class="dropdown">
-                        <a href="#" data-toggle="dropdown" class="dropdown-toggle" style="color:#FFFFFF"><span class="glyphicon glyphicon-user" ></span><b class="caret"></b></a>
+                    <li class="dropdown">                        
+                        <img src="<?php echo $_SESSION["userImg"]; ?>" class="img-circle dropdown-toggle"  data-toggle="dropdown" class="" alt="Cinque Terre" width="45" height="45"><b class="caret"></b>
                         <ul class="dropdown-menu">
+                            <li><a href="https://myaccount.google.com/"> <?php echo $_SESSION["userName"];?></a></li>
                             <li><a href=""> Shopping Cart</a></li>
+                            <li><a href="LocationChange.php"> Change My Location</a></li>
                             <li class="divider"></li>
-                            <li><a href="">Log out</a></li>
+                            <li><a href="Controllers/logout.php">Log out</a></li>
                         </ul>
                     </li>    
                 </ul>
@@ -128,25 +85,24 @@
           <div class="row">
               
           <div id="search-by-cover" class="col-md-4">
-              <h2>Search By Cover</h2>
-              <form method="POST" action="UploadFile.php" enctype="multipart/form-data" id="upload">                   
-                    <div class="row">
-                        <div class="col-md-4">
-                            <input type="file" name="image" id="image">
-                             <button class="btn btn-default" type="submit">
-                                <i class="glyphicon glyphicon-search"></i>
-                            </button>
-                        </div>
-                    </div>
-            </form>
-            </div>   
-
+              <form method="POST" action="UploadFile.php" enctype="multipart/form-data" id="upload">
+                <div class="input-group">
+                  <input type="file" name="image" id="image" class="form-control" title="Search By Cover">
+                  <div class="input-group-btn">
+                      <button class="btn btn-default" type="submit">
+                      <i class="glyphicon glyphicon-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>    
+              
             <div id="search-by-name" class="col-md-4">
               <form>
                 <div class="input-group">
-                  <input id="nnn" type="text" class="form-control" placeholder="Search By Name" onchange="nameChanged()">
+                  <input id="byName" type="text" class="form-control" placeholder="Search By Name">
                   <div class="input-group-btn">
-                    <button class="btn btn-default" type="submit">
+                      <button class="btn btn-default" type="button" onclick="searchByName()">
                       <i class="glyphicon glyphicon-search"></i>
                     </button>
                   </div>
@@ -168,21 +124,193 @@
             </div>
 
           </div>
+            <div class="row">
+                <div id="search-by-isbn" class="col-md-12">
+                    <label for="radiusSelect">Radius:</label>
+                    <select id="radiusSelect" label="Radius">
+                        <option value="100">100 kms</option>
+                        <option value="50">50 kms</option>
+                        <option value="30">30 kms</option>
+                        <option value="20">20 kms</option>
+                        <option value="10">10 kms</option>
+                    </select>
+                </div> 
+            </div>  
         </div>
     </div> 
-
+    <div><select id="locationSelect" style="width: 10%; visibility: hidden"></select></div>
     <div id="maps-row">
       <div class="container">
         <div class="row">
           <div id="map" class="col-md-12"></div>
-          <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDq1uR22iiKmJe8aefKswWa4Td_gok0Mmk&libraries=places&callback=initMap" async defer></script>
+      <script>
+          
+       function getMylocation(){
+           if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(initMap);
+            } else {
+                x.innerHTML = "Geolocation is not supported by this browser.";
+            }
+       }
+       
+      var map;
+      var markers = [];
+      var infoWindow;
+      var locationSelect;
+
+        function initMap(status,xlat,xlng) {
+          
+          var lat=6.907659;
+          var lng=79.85078;
+                      
+          var myLoc = {lat: lat, lng: lng};
+          var name='<?php echo $_SESSION["userName"];?>';
+          var dis='<?php echo $_SESSION["userEmail"];?>';
+          
+          if(status == null){              
+          //console.log(myLoc);
+          map = new google.maps.Map(document.getElementById('map'), {
+            center: myLoc,
+            zoom: 12,
+            mapTypeId: 'roadmap',
+            mapTypeControlOptions: {style: google.maps.MapTypeControlStyle.DROPDOWN_MENU}
+          });
+          infoWindow = new google.maps.InfoWindow();
+          
+          createMarker(myLoc,name,dis);
+          searchButton = document.getElementById("searchButton").onclick = searchLocations;
+
+          locationSelect = document.getElementById("locationSelect");
+          locationSelect.onchange = function() {
+            var markerNum = locationSelect.options[locationSelect.selectedIndex].value;
+            if (markerNum != "none"){
+              google.maps.event.trigger(markers[markerNum], 'click');
+            }
+          };
+          
+          }else{
+              
+              var place2={lat:xlat , lng: xlng};
+                      
+              map = new google.maps.Map(document.getElementById('map'), {
+                center: myLoc,
+                zoom: 12,
+                mapTypeId: 'roadmap'
+              });
+              
+              map.controls[google.maps.ControlPosition.TOP_CENTER].push(
+              document.getElementById('info'));
+
+                marker1 = new google.maps.Marker({
+                  map: map,
+                  draggable: true,
+                  position: myLoc
+                });
+
+                marker2 = new google.maps.Marker({
+                  map: map,
+                  draggable: true,
+                  position: place2
+                });
+                
+
+                var bounds = new google.maps.LatLngBounds(
+                    marker1.getPosition(), marker2.getPosition());
+                map.fitBounds(bounds);
+
+                google.maps.event.addListener(marker1, 'position_changed', update);
+                google.maps.event.addListener(marker2, 'position_changed', update);
+
+                poly = new google.maps.Polyline({
+                  strokeColor: '#FF0000',
+                  strokeOpacity: 1.0,
+                  strokeWeight: 3,
+                  map: map
+                });
+
+                geodesicPoly = new google.maps.Polyline({
+                  strokeColor: '#CC0099',
+                  strokeOpacity: 1.0,
+                  strokeWeight: 3,
+                  geodesic: true,
+                  map: map
+                });
+
+                update();
+          }    
+              
+        }
+        
+        function update() {
+            var path = [marker1.getPosition(), marker2.getPosition()];
+            poly.setPath(path);
+            geodesicPoly.setPath(path);
+            var heading = google.maps.geometry.spherical.computeHeading(path[0], path[1]);
+            document.getElementById('heading').value = heading;
+            document.getElementById('origin').value = path[0].toString();
+            document.getElementById('destination').value = path[1].toString();
+        }
+
+       function searchLocations() {
+         var address = document.getElementById("addressInput").value;
+         var geocoder = new google.maps.Geocoder();
+         geocoder.geocode({address: address}, function(results, status) {
+           if (status == google.maps.GeocoderStatus.OK) {
+            searchLocationsNear(results[0].geometry.location);
+           } else {
+             alert(address + ' not found');
+           }
+         });
+       }
+
+       function clearLocations() {
+         infoWindow.close();
+         for (var i = 0; i < markers.length; i++) {
+           markers[i].setMap(null);
+         }
+         markers.length = 0;
+
+         locationSelect.innerHTML = "";
+         var option = document.createElement("option");
+         option.value = "none";
+         option.innerHTML = "See all results:";
+         locationSelect.appendChild(option);
+       }
+
+
+       function createMarker(latlng, name, address) {
+          var html = "<b>" + name + "</b> <br/>" + address;
+          var marker = new google.maps.Marker({
+            map: map,
+            position: latlng
+          });
+          google.maps.event.addListener(marker, 'click', function() {
+            infoWindow.setContent(html);
+            infoWindow.open(map, marker);
+          });
+          markers.push(marker);
+        }
+
+       function createOption(name, distance, num) {
+          var option = document.createElement("option");
+          option.value = num;
+          option.innerHTML = name;
+          locationSelect.appendChild(option);
+       }
+
+
+
+       function doNothing() {}
+       </script>
+          <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAO4dxoeUInCf3G8HaAr8gPwbD-o9YX46I&libraries=places&callback=initMap" async defer></script>
         </div>
       </div>
     </div>
 
       <div id="middle-content" class="container">
-        <div class="row">
-            
+        <?php 
+            if($_SESSION["shops"] == "no"){
+        ?>
         <div class="col-md-4 col-sm-4 col-xs-6 box-def grid">
           <figure class="effect-ruby">
             <img class="img-responsive" src="resources/images/cover.jpg" >
@@ -192,32 +320,34 @@
               <a href="#">Price : 1000.00</a>
             </figcaption>     
           </figure>
-        </div>  
-            
-         <div class="col-md-4 col-sm-4 col-xs-6 box-def grid">
+        </div>
+        
+          
+        <?php   
+            }else{                 
+            $length = count($result);
+            for($i=0;$i<$length;$i++){
+        ?> 
+          <script>
+             initMap(1,<?php echo $result[0]['lat']; ?>,<?php echo $result[0]['lng']; ?>);
+          </script>
+          
+        <div class="col-md-4 col-sm-4 col-xs-6 box-def grid"> 
           <figure class="effect-ruby">
-            <img class="img-responsive" src="resources/images/cover.jpg" >
+              <img class="img-responsive" src="resources/images/cover.jpg" onclick="initMap(1,<?php echo $result[$i]['lat']; ?>,<?php echo $result[$i]['lng']; ?>);">
             <figcaption>
-              <h2>Godage Book Shop</h2>
+                <h3><?php echo $i+1; ?>.Distance :<?php echo round($result[$i]['distance']*10,1); ?>KM</h3>
+              <h2><?php echo $result[$i]['name']; ?></h2>
               <p>Name : Horton</p>
               <a href="#">Price : 1000.00</a>
             </figcaption>     
           </figure>
-        </div> 
-            
-         <div class="col-md-4 col-sm-4 col-xs-6 box-def grid">
-          <figure class="effect-ruby">
-            <img class="img-responsive" src="resources/images/cover.jpg" >
-            <figcaption>
-              <h2>Senanayaka Book Shop</h2>
-              <p>Name : Horton</p>
-              <a href="#">Price : 1000.00</a>
-            </figcaption>     
-          </figure>
-        </div>     
-            
-    </div>
-   </div>
+        </div>
+          
+        <?php   
+            }}
+        ?>     
+       </div>
     
 
 
@@ -227,10 +357,58 @@
 <script>
     
     $(function(){       
-        window.sessionStorage;
-        var Uid = sessionStorage.getItem("Uid");
-        var data = sessionStorage.getItem("userObj");
-        console.log(data.Uname);
+       getMylocation();
     });
+    
+    function nearLocations(){
+         if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(initMap);
+            } else {
+                x.innerHTML = "Geolocation is not supported by this browser.";
+            }
+    }
+    
+    function searchByName(){
+        
+        var text=$("#byName").val();
+        var type=1;
+        jQuery.ajax({
+        type: "POST",
+        url: '/bookShelf/Controllers/search.php',
+        dataType: 'json',
+        data: "text=" + text + "&type=" +type,        
+        success: function(data){
+             navigator.geolocation.getCurrentPosition(SendData);
+             if(data.code == 200){
+                  var list=data.msg;
+             }
+         }
+        });
+        
+    }
+    
+    
+    function SendData(position){
+        
+        //var lat =position.coords.latitude;
+        var lat=6.907659;
+        var lng=79.85078;
+        //var lng=position.coords.longitude;
+        var rad=$("#radiusSelect").val();
+        var where="id NOT IN (1,2)";
+        var extraData = "lat=" + lat + "&lng=" +lng+ "&radius=" + rad + "&where=" +where;
+        //console.log(extraData);
+        jQuery.ajax({
+        type: "GET",
+        url: '/bookShelf/LocationSearch.php',
+        dataType: 'json',
+        data: extraData,        
+        success: function(data){
+            if(data.code == 200){
+                  location.reload();
+             }     
+         }
+        });
+    }
             
 </script>
