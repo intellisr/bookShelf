@@ -67,7 +67,7 @@
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="userMain.php">Home </a></li>
                     <li ><a href="shareBooks.php">Share Books</a></li>
-                    <li><a href="chatRoom.php">Chat Room</a></li>
+                    <li><a href="chat/index.php">Chat Room</a></li>
                     <li class="dropdown">                        
                         <img src="<?php echo $_SESSION["userImg"];?>" class="img-circle dropdown-toggle"  data-toggle="dropdown" class="" alt="Cinque Terre" width="45" height="45"><b class="caret"></b>
                         <ul class="dropdown-menu">
