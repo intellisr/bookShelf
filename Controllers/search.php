@@ -15,7 +15,7 @@ if($type == 1){
     
 }else if($type == 2){
     
-    $stat=text;
+    $stat=$text;
     echo json_encode(array("code" => "200", "msg" => $stat )); 
     
 }else{

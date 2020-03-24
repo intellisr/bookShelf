@@ -371,7 +371,43 @@
         ?>     
        </div>
                
-           
+    
+      <?php
+       if($_SESSION["imgText"] == null){
+          
+      }elseif ($_SESSION["imgText"] == "wrong"){ $_SESSION["imgText"]=null;
+      ?>
+       <script>
+           alert("Invalid Image,Can't Recognize");
+       </script>
+      <?php }else { ?>
+       <script>
+           console.log("dasdasd");
+           var text=<?php echo json_encode($_SESSION["imgText"]);?>;
+
+            var lat=<?php echo $lat; ?>;
+            var lng=<?php echo $lng; ?>;
+            var rad=$("#radiusSelect").val();
+            var where=text;
+            var ty="type";
+            var extraData = "lat=" + lat + "&lng=" +lng+ "&radius=" + rad + "&where=" + where + "&type=" + ty;
+            jQuery.ajax({
+            type: "GET",
+            url: '/bookShelf/LocationSearch.php',
+            dataType: 'json',
+            data: extraData,        
+            success: function(data){
+                if(data.code == 200){
+                      location.reload();
+                 }     
+             }
+            });
+            
+       </script>
+      <?php } ?>
+
+
+       
        
   </body>
 </html>
