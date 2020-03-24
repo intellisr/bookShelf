@@ -71,7 +71,7 @@
     <div class="col-sm-12">
         <div class="col-sm-6">
             <div class="signup-form">
-                <form action="Controllers/addBooks.php" method="post">
+                <form action="Controllers/addBooksShop.php" method="post">
                     <div class="text-center">
                         <h2>Insert Books</h2>
                     </div>
