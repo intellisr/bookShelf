@@ -8,6 +8,7 @@ include 'db.php';
 	<link rel="stylesheet" href="styles.css">
         <link href="../resources/css/bootstrap.min.css" rel="stylesheet">
         <link href="../resources/css/style.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="resources/chatRoom/style.css">
         
 	<script type="text/javascript">
 		function ajax(){
@@ -65,24 +66,23 @@ include 'db.php';
 
           </div>
         </div>
-
-    </div>
-    
-	<div id="container">
+    <?php
+        session_start();
+        $myid = $_SESSION["userName"];
+      ?>
+    <div id="container" class="container" style="margin-top:100px;">
 	<div id="chat_box">
 		<div id="chat">
 		</div>
 
 	</div>
 		<form method="post" action="index.php">
-			<input type="text" name="name" placeholder="Enter user name of your friend">
 			<textarea name="msg" placeholder="Enter the meassage:)"></textarea>
-			<input type="submit" name="submit" value="Sendit">
-
+			<input type="submit" name="submit" class="btn btn-success btn-lg btn-block" value="Sendit">
 		</form>
 <?php
 if (isset($_POST['submit'])) {
-	$name  = $_POST['name'];
+	$name  = $myid;
 	$msg   = $_POST['msg'];
 	$query = "INSERT INTO chat (name,msg) values ('$name','$msg')";
 	$run   = $conn->query($query);
