@@ -57,6 +57,7 @@ include 'db.php';
                 <ul class="nav navbar-nav">
                     <li ><a href="../userMain.php">Home </a></li>
                     <li ><a href="../shareBooks.php">Share Books</a></li>
+                    <li ><a href="../indexg.php">Puzzle</a></li>
                     <li class="active"><a href="#">Chat Room</a></li>                                     
                 </ul>
               </div>

@@ -59,12 +59,13 @@
                 <ul class="nav navbar-nav">
                     <li ><a href="userMain.php">Home </a></li>
                     <li class="active"><a href="shareBooks.php">Share Books</a></li>
+                    <li ><a href="indexg.php">Puzzle</a></li>
                     <li><a href="chats/index.php">Chat Room</a></li>
                     <li class="dropdown">
                         <img src="<?php echo $_SESSION["userImg"];?>" class="img-circle dropdown-toggle"  data-toggle="dropdown" class="" alt="Cinque Terre" width="45" height="45"><b class="caret"></b>
                         <ul class="dropdown-menu">
                             <li><a href="https://myaccount.google.com/"> <?php echo $_SESSION["userName"];?></a></li>
-                            <li><a href=""> Shopping Cart</a></li>
+                            <li><a href="cart.php"> Shopping Cart</a></li>
                             <li><a href="LocationChange.php"> Change My Location</a></li>
                             <li class="divider"></li>
                             <li><a href="Controllers/logout.php">Log out</a></li>
