@@ -71,7 +71,7 @@
     <div class="col-sm-12">
         <div class="col-sm-6">
             <div class="signup-form">
-                <form action="Controllers/addBooksShop.php" method="post">
+                <form action="addShopBooks.php" method="post" enctype="multipart/form-data">
                     <div class="text-center">
                         <h2>Insert Books</h2>
                     </div>
@@ -86,20 +86,24 @@
                         <input type="text" class="form-control"  name="author" placeholder="Author" required="required">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control"  name="price" placeholder="Price" required="required">
+                        <input type="number" class="form-control"  name="price" placeholder="Price" required="required">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control"  name="quantity" placeholder="Quantity" required="required">
+                        <input type="number" class="form-control"  name="quantity" placeholder="Quantity" required="required">
+                    </div>
+                    <div class="form-group" style="background-color:white">
+                            <label>Add Book Cover</label>
+                            <input type="file" name="image" id="image">
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-success btn-lg btn-block">Add</button>
+                        <button type="submit" class="btn btn-success btn-lg btn-block" onclick="addbooks()">Add</button>
                     </div>
                     
                 </form>
 
             </div>
-        </div>
-        <div class="col-sm-6">
+            <div id="error">
+            </div>
         </div>
     </div>
 
@@ -150,10 +154,32 @@
         $('#edit_office').val($('#'+id+'_office').val());
     }
 
+    function addbooks(){
+       var extraData;
+        jQuery.ajax({
+        type: "POST",
+        url: 'addShopBooks.php',
+        dataType: 'json',
+        data: extraData,
+        success: function (obj) {
+                  if( obj.code == 300 ) {
+                      $('#error').html("This cover is not supported").fadeOut(5000);
+                  }
+                  else if( obj.code == 200 ) {
+                      $('#error').html("Successfully Added").fadeOut(5000);
+                  }
+                  else{
+                      $('#error').html("Some thing wrong please contact the admin center").fadeOut(5000);
+                  }
+            }
+        });
+    }
+    return false;
+     
+ }  
+
 
 </script>
-
-
 
 </body>
 </html>

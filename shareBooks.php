@@ -337,16 +337,19 @@
           
         <div class="col-md-4 col-sm-4 col-xs-6 box-def grid"> 
           <figure class="effect-ruby" onclick="initMap(1,<?php echo $result[$i]['lat']; ?>,<?php echo $result[$i]['lng']; ?>);">
+              <div>
               <img src="<?php echo $result[$i]['proPic'];?>" class="img-circle dropdown-toggle"  class="" alt="Cinque Terre" width="60" height="60">
-            <figcaption>
-              <h4><?php echo $i+1; ?>.Distance :<?php echo round($result[$i]['distance']*10,1); ?>KM</h4>
-              <h3><?php echo $result[$i]['Uname']; ?></h3>
-              <h4>BOOK : <?php echo $result[$i]['bookName']; ?></h4>
-              <h5>Author : <?php echo $result[$i]['author']; ?></h5>
-              <h5>PRICE : <?php echo $result[$i]['price']; ?></h5>
+              </div>
+            <figcaption><span style="background-color:white;">
+              <h4><span style="background-color:white;"><?php echo $i+1; ?>.Distance :<?php echo round($result[$i]['distance']*10,1); ?>KM</span></h4>
+              <h3><span style="background-color:white;"><?php echo $result[$i]['Uname']; ?></span></h3>
+              <h4><span style="background-color:white;">BOOK : <?php echo $result[$i]['bookName']; ?></span></h4>
+              <h5><span style="background-color:white;">Author : <?php echo $result[$i]['author']; ?></span></h5>
+              <h5><span style="background-color:white;">PRICE : <?php echo $result[$i]['price']; ?></span></h5>
+              </span>
             </figcaption>     
           </figure>
-            <a href="chatRoom.php?chatId=<?php echo $result[$i]['Uname'];?>">Chat with  <?php echo $result[$i]['Uname']; ?></a>
+            <a href="http://localhost/bookShelf/chats/index.php"><span style="background-color:white;">Chat with  <?php echo $result[$i]['Uname']; ?></span></a>
         </div>
           
         <?php   
@@ -385,7 +388,7 @@
         </div>
         
         <div class="col-sm-6">
-             <table id="example" class="table table-bordered" style="width:100%;margin-top:100px; ">
+             <table id="example" class="table table-bordered" style="width:100%;margin-top:100px;background-color: #f5f5f5;">
                 <thead>
                 <tr>
                     <th>ISBN</th>

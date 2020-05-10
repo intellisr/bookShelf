@@ -198,7 +198,7 @@
           
           }else{
               
-              var place2={lat:xlat , lng: xlng};
+              var place2={lat:xlat , lng:xlng};
                       
               map = new google.maps.Map(document.getElementById('map'), {
                 center: myLoc,
@@ -312,9 +312,8 @@
           locationSelect.appendChild(option);
        }
 
-
-
        function doNothing() {}
+
        </script>
        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAO4dxoeUInCf3G8HaAr8gPwbD-o9YX46I&libraries=places&callback=initMap" async defer></script>
         </div>
@@ -359,10 +358,10 @@
           <figure class="effect-ruby" onclick="initMap(1,<?php echo $result[$i]['lat']; ?>,<?php echo $result[$i]['lng']; ?>);">
               <?php echo '<img src="data:image/jpeg;base64,'.base64_encode( $result[$i]['cover'] ).'" class="img-responsive" >'; ?>
             <figcaption>
-              <h4><?php echo $i+1; ?>.Distance :<?php echo round($result[$i]['distance']*10,1); ?>KM</h4>
-              <h3><?php echo $result[$i]['name']; ?></h3>
-              <h4>BOOK : <?php echo $result[$i]['bookName']; ?></h4>
-              <h4>PRICE : <?php echo $result[$i]['price']; ?></h4>
+              <h4><span style="background-color:white;"><?php echo $i+1; ?>.Distance :<?php echo round($result[$i]['distance']*10,1); ?>KM</span></h4>
+              <h3><span style="background-color:white;"><?php echo $result[$i]['name']; ?></span></h3>
+              <h4><span style="background-color:white;">BOOK : <?php echo $result[$i]['bookName']; ?></span></h4>
+              <h4><span style="background-color:white;">PRICE : <?php echo $result[$i]['price']; ?></span></h4>
             </figcaption>     
           </figure>
         </div>

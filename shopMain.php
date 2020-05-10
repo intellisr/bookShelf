@@ -48,7 +48,7 @@
 
               <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li class="h2"><?php echo $_SESSION["shopName"];?></li>
+                    <li class="h2" style="color: #ffff;"><?php echo $_SESSION["shopName"];?></li>
                     <li class="active"><a href="shopMain.php">Home </a></li>
                     <li><a href="shopAddBooks.php">Add Books</a></li>
                     <li class="divider"></li>
@@ -71,7 +71,7 @@
     <div class="col-sm-12">
         <div class="col-sm-6">
 
-            <table id="example" class="table table-bordered" style="width:100%">
+            <table id="example" class="table table-bordered" style="width:100%;background-color: #f5f5f5;">
                 <thead>
                 <tr>
                     <th>ISBN</th>
@@ -100,10 +100,9 @@
         </div>
         <div class="col-sm-6">
             <div class="signup-form">
-                <form action="/examples/actions/confirmation.php" method="post">
+                <form method="post">
                     <div class="text-center">
                         <h2>Stock Update</h2>
-                        <!--                    <p class="hint-text">Create your account. It's free and only takes a minute.</p>-->
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" id="isbn" name="isbn" placeholder="ISBN" required="required">
@@ -115,8 +114,8 @@
                         <input type="text" class="form-control" id="quan" name="quantity" placeholder="Quantity" required="required">
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-success btn-lg btn-block">Update</button>
-                        <button type="submit" class="btn btn-warning btn-lg btn-block">Delete</button>
+                        <button type="button" onclick="updateBook()" class="btn btn-success btn-lg btn-block">Update</button>
+                        <button type="button" onclick="deleteBook()" class="btn btn-warning btn-lg btn-block">Delete</button>
                     </div>
                     
                 </form>
@@ -172,6 +171,43 @@
         $('#quan').val(quan);
     }
 
+    function updateBook(){
+
+        var isbn=$("#isbn").val();
+        var price=$("#pri").val();
+        var quentity=$("#quan").val();
+        var extraData = "isbn=" + isbn +"&price="+price+"&quentity="+quentity;
+
+        jQuery.ajax({
+        type: "POST",
+        url: '/bookShelf/Controllers/updateBook.php',
+        dataType: 'json',
+        data: extraData,        
+        success: function(data){
+            if(data.code == 200){
+                location.reload();
+            }     
+        }
+        });
+    }
+
+    function deleteBook(){
+
+        var isbn=$("#isbn").val();
+        var extraData = "isbn=" + isbn;
+
+        jQuery.ajax({
+        type: "POST",
+        url: '/bookShelf/Controllers/deleteBook.php',
+        dataType: 'json',
+        data: extraData,        
+        success: function(data){
+            if(data.code == 200){
+                location.reload();
+            }     
+        }
+        });
+    }
 
 </script>
 
