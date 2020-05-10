@@ -134,43 +134,20 @@
 
     </div>
 
-<!--End User Login-->
-
-    <!--Start of Copyright Row-->
-    <div id="copyright-row">
-
-      <!--Start of Copyright-->
-      <div id="copyright" class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <p><span>BookStore</span> &copy; 2020 | All Rights Reserved</p>
-          </div>
-        </div>
-      </div>
-      <!--Start of Copyright-->
-
-    </div>
-    <!--Start of Copyright Row-->
-
-<!------------------------------------------------------------------------------------------------------------>
-
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script
   src="https://code.jquery.com/jquery-1.12.4.min.js"
   integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
   crossorigin="anonymous"></script>
     <script src="resources/js/bootstrap.min.js"></script>
 
-    <!-- Testimonials -->
-    <!-- <script src="resources/testimonials/js/jquery-2.1.1.js"></script> -->
     <script src="resources/testimonials/js/masonry.pkgd.min.js"></script>
     <script src="resources/testimonials/js/jquery.flexslider-min.js"></script>
     <script src="resources/testimonials/js/main.js"></script> 
-    <!-- Testimonials -->
 
     <script type="text/javascript" src="resources/js/jquery.cslider.js"></script>
 
     <script type="text/javascript">
+
      $(function() {
       
         $('#da-slider').cslider({
@@ -188,6 +165,7 @@
       }); 
 
       });
+      
     </script> 
 
 
