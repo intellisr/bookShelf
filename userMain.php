@@ -362,6 +362,7 @@
               <h3><span style="background-color:white;"><?php echo $result[$i]['name']; ?></span></h3>
               <h4><span style="background-color:white;">BOOK : <?php echo $result[$i]['bookName']; ?></span></h4>
               <h4><span style="background-color:white;">PRICE : <?php echo $result[$i]['price']; ?></span></h4>
+              <Button type="button" onclick="addtocart( <?php echo $result[$i]['bid'] ?> , <?php echo $result[$i]['shopId']?> )" ><span style="background-color:white;">Add to cart</span></Button>
             </figcaption>     
           </figure>
         </div>
@@ -469,6 +470,21 @@
         success: function(data){
             if(data.code == 200){
                   location.reload();
+             }     
+         }
+        });
+    }
+
+    function addtocart(bid,sid){
+      var extraData = "bid=" + bid + "&sid=" + sid ;
+        jQuery.ajax({
+        type: "POST",
+        url: '/bookShelf/Controllers/addtocart.php',
+        dataType: 'json',
+        data: extraData,        
+        success: function(data){
+            if(data.code == 200){
+
              }     
          }
         });

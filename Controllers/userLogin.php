@@ -42,6 +42,7 @@ if($row != null){
         $_SESSION["shops"] ="no";
         $_SESSION["friend"] = "no";
         
+        $msg="logedIn";
         echo json_encode(array("code" => "200", "msg" => $msg ));    
 }
       
